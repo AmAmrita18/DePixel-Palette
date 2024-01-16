@@ -16,6 +16,7 @@ contract DePixelPalette is ERC721URIStorage{
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
 
+    uint256 listingPrice = 0.0015 ether;
     address payable owner;
 
     mapping(unit256 => MarketItem) private idMarketItem;
@@ -46,8 +47,12 @@ contract DePixelPalette is ERC721URIStorage{
         owner == payable(msg.sender);
     }
 
-    function updateListingPrice(uint256 _ListingPrice) public payable{
-
+    function updateListingPrice(uint256 _ListingPrice) 
+    public
+    payable
+    onlyOwner
+    {
+       listingPrice = _listingPrice
     }
 
 
