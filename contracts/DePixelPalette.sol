@@ -60,4 +60,33 @@ contract DePixelPalette is ERC721URIStorage{
         return listingPrice;
     }
 
+    //Let create "CREATE NFT TOKEN FUNCTION"
+
+    function createToken(string memory tokenURI, Uint256 price ) public payable returns(uint256){
+        _tokenIds.increment();
+
+        uint256 newTokenId = _tokenIds.current();
+
+        _mint(msg.sender, newTokenId);
+        _setTokenURI(newTokenId, tokenURI);
+
+        createMarketItem(newTokenId, price);
+        return newTokenId;
+
+    }
+
+    //creating market item
+    function createMarketItem(uint256 tokenId, uint256 price) private{
+        require(price > 0, "Price must be at least 1");
+        require(msg.value == listingPrice, "Price must be equal to listing price");
+
+        idMarketItem[tokenId] = MarketItem(
+            tokenId,
+            payable(msg.sender),
+            payable(address(this)),
+            price,
+            false
+        );
+
+    }
 }
