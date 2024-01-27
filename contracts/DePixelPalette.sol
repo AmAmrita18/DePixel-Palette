@@ -88,5 +88,13 @@ contract DePixelPalette is ERC721URIStorage{
             false
         );
 
+        _transfer(msg.sender, address(this), tokenId);
+
+        emit idMarketItemCreated(tokenId,
+        msg.sender,
+        address(this),
+        price,
+        false
+        );
     }
 }
