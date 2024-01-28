@@ -97,4 +97,41 @@ contract DePixelPalette is ERC721URIStorage{
         false
         );
     }
+
+    //function for RESALE TOKEN
+    function reSellToken(uint256 tokenId, uint256 price) public payable{
+        require(idToMarketItem[tokenId].owner == msg.sender, "Only item owner can perform this operation");
+        
+        require(msg.value == listingPrice, "Price must be equal to listing price");
+
+        idMarketItem[tokenId].sold = false;
+        idMarketItem[tokenId].price = price;
+        idMarketItem[tokenId].seller = payable(msg.sender);
+        idMarketItem[tokenId].owner = payable(address(this));
+
+        _itemsSold.decrement();
+
+        _transfer(msg.sender, address(this), tokenId);
+    }
+
+    //Function CREATEMARKETSALE
+    function createMarketSale(uint256 tokenId) public payable{
+        uint price = idMarketItem[tokenId].price;
+
+        require(
+            msg.value == price,
+            "Please submit the asking price in order to complete the purchase"
+        );
+
+        idMarketItem[tokenId].owner = payable(msg.sender);
+        idMarketItem[tokenId.sold = true;
+        idMarketItem[tokenId].owner] = payable(address(0));
+
+        _itemsSold.increment();
+
+        _transfer(address(this), msg.sender, tokenId);
+
+        payable()
+    }
+     
 }
